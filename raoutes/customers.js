@@ -1,5 +1,4 @@
 const express= require("express");
-const mongoose = require('mongoose');
 const {Customer,validation}=require("../models/customers")
 const router=express.Router();
 router.use(express.json());

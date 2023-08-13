@@ -1,6 +1,6 @@
 const express= require("express");
-const mongoose = require('mongoose');
 const {movies,validation}=require("../models/movie")
+const {Genres}=require("../models/genres");
 const router=express.Router();
 router.use(express.json());
 
@@ -27,7 +27,9 @@ router.post("/",async(req,res)=>{
         dailyRentalRate: req.body.dailyRentalRate,
         genre: req.body.genre
     });
-    Movies= await movies.save()
+    let genres=new Genres({name: req.body.genre.name});
+    genres= await genres.save()
+    Movies= await Movies.save()
     res.send(Movies);
 });
 router.put("/:id",async( req,res)=>{

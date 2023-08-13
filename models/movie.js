@@ -30,12 +30,12 @@ const movies=mongoose.model("movies",movie_schema)
 
 function validation(movies){
     const schema={
-        Title: Joi.string().minlength(3).maxlength(30).require(),
-        numberInStock: Joi.number().min(0).max(255).require(),
-        dailyRentalRate: Joi.number().min(0).max(255).require(),
-        genre:Joi.string().minlength(5).maxlength(50).require()
+        title: Joi.string().min(3).max(30).required(),
+        numberInStock: Joi.number().min(0).max(255).required(),
+        dailyRentalRate: Joi.number().min(0).max(255).required(),
+        genre:Joi.object({name:Joi.string().min(5).max(50).required()}).required()
     }
-    return joi.validate(movies,schema)
+    return Joi.validate(movies,schema)
 }
 exports.movies=movies;
-exports.validate=validation;
+exports.validation=validation;

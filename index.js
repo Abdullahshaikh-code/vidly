@@ -8,7 +8,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/vidly")
   .then(()=> console.log('connected to Databas...'))
   .catch((err)=>console.error('could not connect to database',err));
 
-app.use("/api/genres",movie)
+app.use("/api/movies",movie)
 app.use("/api/genres",genre)
 app.use("/api/customers",customers)
 const port = process.env.port  || 3000;

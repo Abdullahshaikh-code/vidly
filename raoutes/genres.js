@@ -1,5 +1,4 @@
 const express= require("express");
-const mongoose = require('mongoose');
 const {Genres,validation}=require("../models/genres")
 const router=express.Router();
 router.use(express.json());
@@ -11,7 +10,7 @@ router.get("/",async(req,res)=>{
 router.get("/:id",async(req,res)=>{
     const genres= await Genres.findById(req.params.id);
     if (! genres){
-        return res.status(404).send(error.details[0].message)
+        return res.status(404).send("404 not found")
     }
     res.send(genres)
 });
