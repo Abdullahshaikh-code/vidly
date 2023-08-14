@@ -1,6 +1,7 @@
 const express= require("express");
-const {movies}=require("../models/movie")
-const {Customer}=require("../models/customers")
+const mongoose=require("mongoose");
+const {movies}=require("../models/movie");
+const {Customer}=require("../models/customers");
 const {Rental,validation}=require("../models/rentals");
 const router=express.Router();
 router.use(express.json());
@@ -44,26 +45,47 @@ router.post("/",async(req,res)=>{
         dateReturned: req.body.dateReturned,
         rentalFee: req.body.rentalFee
     });
-    rental= await rentals.save()
-    res.send(rental);
+try{
+    const session =await mongoose.startSession();
+    session.withTransaction(async()=>{
+        const rental=rentals.save();
+        Movies.numberInStock --;
+        Movies.save()
+        res.send(rental);
+    });
+    session.endSession();
+}
+catch(ex){
+    res.status(500).send("Internal Error")
+}
+    
 });
 router.put("/:id",async( req,res)=>{
-    const {error}=validation(req.body);
-    if (error) {
-      return  res.status(400).send(error.details[0].message);
+    try{
+        const {error}=validation(req.body);
+        if (error) {
+          return  res.status(400).send(error.details[0].message);
+        }
     }
+catch(error){
+    res.status(400).send("Bad request")
+}
     
     const customer= await Customer.findById(req.body.customerId);
     if (!customer){return res.status(404).send("404 NOT FOUND")}
     
     const Movies= await movies.findById(req.body.movieId);
     if (!Movies){return res.status(404).send("404 NOT FOUND")}
-    const rental=await Rental.findByIdAndUpdate(req.params.id,{dateReturned:req.body.dateReturned,        rentalFee: req.body.rentalFee},{new:true});
+try{
+    const rental=await Rental.findByIdAndUpdate(req.params.id,{dateReturned:req.body.dateReturned,rentalFee: req.body.rentalFee},{new:true});
     if (! rental){
         return res.status(404).send("404 NOT FOUND")
     };    
     res.send(rental)
-
+}
+catch(ex){
+    res.status(500).send("Internal error")
+}
 })
 
 module.exports =router;
