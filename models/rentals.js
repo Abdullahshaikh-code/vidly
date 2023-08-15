@@ -57,5 +57,15 @@ function validation(rental){
     };
     return Joi.validate(rental,schema);
 }
+function Smart_validation(rental){
+    const schema= {
+      customerId:Joi.objectId(),
+      movieId:Joi.objectId(),
+      dateReturned:Joi.date(),
+      rentalFee:Joi.number()
+    };
+    return Joi.validate(rental,schema);
+}
 exports.Rental=rental;
 exports.validation=validation;
+exports.Smart_validation=Smart_validation
