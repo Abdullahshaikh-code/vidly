@@ -1,56 +1,30 @@
 const express= require("express");
-const {User,validation}=require("../models/users")
+const _= require("lodash");
+const bcrypt= require("bcrypt");
+const passwordComplexity= require("joi-password-complexity");
+const {User,validation}=require("../models/users");
+const { use } = require("./users");
 const router=express.Router();
 router.use(express.json());
 
-router.get("/",async(req,res)=>{
-    const user=await User.find().sort("name");
-    res.send(user);
-});
-router.get("/:id",async(req,res)=>{
-    const user= await User.findById(req.params.id);
-    if (!user){
-        return res.status(404).send("404 NOT FOUND")
-    }
-    res.send(user)
-});
 
 router.post("/",async(req,res)=>{
     const {error}=validation(req.body);
     if (error) {
       return  res.status(400).send(error.details[0].message);
     }
-    let user=new User({
-        name: req.body.name,
-        email: req.body.ph,
-        password: req.body.password
-    });
-    user= await User.save()
-    res.send(user);
+   if (await User.findOne({email:req.body.email})){
+    res.status(400).send("User already exist")
+   }
+   if (!passwordComplexity().validate(req.body.password)){
+    res.status(400).send("Give password is week")
+   }
+   
+   let user=new User(_.pick(req.body),["name","email","password"]);
+   const round=await bcrypt.genSalt(10)
+   user.password=await bcrypt.hash(user.password,round)
+   user= await user.save()
+    res.send(_.pick(user,["_id","name","email"]));
 });
-router.put("/:id",async( req,res)=>{
-    const {error}=validation(req.body);
-    if (error) {
-      return  res.status(400).send(error.details[0].message);
-    };
-    const user=await User.findByIdAndUpdate(req.params.id,{
-        name: req.body.name,
-        email: req.body.ph,
-        password: req.body.password
-    },{new:true});
-    if (! user){
-        return res.status(404).send("404 NOT FOUND")
-    };
-    
-    res.send(user)
-
-})
-router.delete("/:id",async(req,res)=>{
-    const user=await User.findByIdAndDelete(req.params.id);
-        if (!user){
-        return res.status(404).send("404 NOT FOUND")
-    };
-   res.send(user)
-})
 
 module.exports =router; 
