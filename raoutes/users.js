@@ -3,7 +3,6 @@ const _= require("lodash");
 const bcrypt= require("bcrypt");
 const passwordComplexity= require("joi-password-complexity");
 const {User,validation}=require("../models/users");
-const { use } = require("./users");
 const router=express.Router();
 router.use(express.json());
 

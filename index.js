@@ -2,6 +2,7 @@ const mongoose=require("mongoose");
 const express=require("express");
 const app=express();
 const movie= require("./raoutes/movie");
+const authentication= require("./raoutes/authentication");
 const genre= require("./raoutes/genres");
 const customers=require("./raoutes/customers");
 const user=require("./raoutes/users")
@@ -11,6 +12,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/vidly")
   .then(()=> console.log('connected to Databas...'))
   .catch((err)=>console.error('could not connect to database',err));
 app.use("/api/user",user)
+app.use("/api/auth",authentication)
 app.use("/api/rentals",rentals)
 app.use("/api/movies",movie)
 app.use("/api/genres",genre)
