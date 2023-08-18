@@ -6,7 +6,8 @@ const  users_schema=new mongoose.Schema({
         type: String,
         require: true,
         minlength: 5,
-        maxlength: 50
+        maxlength: 50,
+        require: true
     },
     email: {
         type: String,
@@ -19,19 +20,26 @@ const  users_schema=new mongoose.Schema({
     password: {
         type: String,
         require:true,
-        minlength:8
+        minlength:8,
+        require: true
     }
 })
 
 const  User=mongoose.model("users",users_schema)
 
-function validation(User){
-    const schema= {
+async function validation(user) {
+    const schema = Joi.object({
         name: Joi.string().min(5).required(),
-        email:Joi.string().min(11).max(50).email().required(),
-        password:Joi.string().min(8).required()
-    };
-    return Joi.validate(User, schema);
+        email: Joi.string().min(11).max(50).email().required(),
+        password: Joi.string().min(8).required()
+    });
+
+    try {
+        await schema.validateAsync(user);
+        console.log('Validation successful');
+    } catch (error) {
+        throw error; // Rethrow the validation error
+    }
 }
 exports.User=User;
 exports.validation=validation;
