@@ -1,3 +1,5 @@
+const jwtauth= require("../MiddleWare/authJwt");
+const jwtadmin= require("../MiddleWare/admin");
 const express= require("express");
 const {Genres,validation}=require("../models/genres")
 const router=express.Router();
@@ -15,29 +17,32 @@ router.get("/:id",async(req,res)=>{
     res.send(genres)
 });
 
-router.post("/",async(req,res)=>{
-    const {error}=validation(req.body);
-    if (error) {
-      return  res.status(400).send(error.details[0].message);
+router.post("/",jwtauth,async(req,res)=>{
+    try {
+        await validation(req.body);
+        let genres=new Genres({name: req.body.name});
+        genres= await genres.save()
+        res.send(genres);
     }
-    let genres=new Genres({name: req.body.name});
-    genres= await genres.save()
-    res.send(genres);
+    catch(error){
+        return  res.status(400).send(error.details[0].message);  
+    }
 });
-router.put("/:id",async( req,res)=>{
-    const {error}=validation(req.body);
-    if (error) {
-      return  res.status(400).send(error.details[0].message);
-    };
-    const genres=await Genres.findByIdAndUpdate(req.params.id,{name:req.body.name},{new:true});
-    if (! genres){
-        return res.status(404).send("404 NOT FOUND")
-    };
-    
-    res.send(genres)
+router.put("/:id",jwtauth,async( req,res)=>{
+    try {
+        await validation(req.body);
+        const genres=await Genres.findByIdAndUpdate(req.params.id,{name:req.body.name},{new:true});
+        if (! genres){
+            return res.status(404).send("404 NOT FOUND")
+        };
+        res.send(genres)    
 
+    }
+    catch(error){
+        return  res.status(400).send(error.details[0].message);  
+    }
 })
-router.delete("/:id",async(req,res)=>{
+router.delete("/:id",[jwtauth,jwtadmin],async(req,res)=>{
     const genres=await Genres.findByIdAndDelete(req.params.id);
         if (! genres){
         return res.status(404).send("404 NOT FOUND")

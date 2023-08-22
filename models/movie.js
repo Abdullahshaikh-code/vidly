@@ -28,14 +28,19 @@ const movie_schema =new mongoose.Schema({
 
 const movies=mongoose.model("movies",movie_schema)
 
-function validation(movies){
+async function validation(movies){
     const schema={
         title: Joi.string().min(3).max(30).required(),
         numberInStock: Joi.number().min(0).max(255).required(),
         dailyRentalRate: Joi.number().min(0).max(255).required(),
         genre:Joi.object({name:Joi.string().min(5).max(50).required()}).required()
     }
-    return Joi.validate(movies,schema)
+    try {
+        await schema.validateAsync(movies);
+        console.log('Validation successful');
+    } catch (error) {
+        throw error; // Rethrow the validation error
+    }
 }
 exports.movies=movies;
 exports.validation=validation;

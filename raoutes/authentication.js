@@ -16,7 +16,8 @@ router.post("/",async(req,res)=>{
    if (!password_check){
    return res.status(400).send("Invalid Email or Password")
    }
-   res.send(true)
+   const token=User_data.generateAuthToken()
+   res.send(token)
 }
 catch (error) {
   // Handle other errors (e.g., database or server errors) 

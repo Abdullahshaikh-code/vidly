@@ -22,7 +22,8 @@ router.post("/", async (req, res) => {
         const round = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(user.password, round);
         user = await user.save();
-        res.send(_.pick(user, ["_id", "name", "email"]));
+        const token=user.generateAuthToken()
+        res.header("x-auth-token",token).send(_.pick(user, ["_id", "name", "email"]));
     } catch (error) {
         if (error instanceof mongoose.Error.ValidationError) {
             return res.status(400).send("Validation error occurred");

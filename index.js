@@ -1,3 +1,4 @@
+const config=require("config");
 const mongoose=require("mongoose");
 const express=require("express");
 const app=express();
@@ -7,6 +8,12 @@ const genre= require("./raoutes/genres");
 const customers=require("./raoutes/customers");
 const user=require("./raoutes/users")
 const rentals= require("./raoutes/rentals");
+
+
+if (!config.get("jwtPrivateKey")){
+  console.error("FATAL ERROR:jwt Private Key is not defined")
+  process.exit(1);
+}
 
 mongoose.connect("mongodb://127.0.0.1:27017/vidly")
   .then(()=> console.log('connected to Databas...'))

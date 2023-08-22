@@ -48,23 +48,33 @@ const rental_schema=new mongoose.Schema({
 
 const rental= mongoose.model("Rentals",rental_schema)
 
-function validation(rental){
+async function validation(rental){
     const schema= {
       customerId:Joi.objectId().required(),
       movieId:Joi.objectId().required(),
       dateReturned:Joi.date(),
       rentalFee:Joi.number()
     };
-    return Joi.validate(rental,schema);
+    try {
+        await schema.validateAsync(rental);
+        console.log('Validation successful');
+    } catch (error) {
+        throw error; // Rethrow the validation error
+    }
 }
-function Smart_validation(rental){
+async function Smart_validation(rental){
     const schema= {
       customerId:Joi.objectId(),
       movieId:Joi.objectId(),
       dateReturned:Joi.date(),
       rentalFee:Joi.number()
     };
-    return Joi.validate(rental,schema);
+    try {
+        await schema.validateAsync(rental);
+        console.log('Validation successful');
+    } catch (error) {
+        throw error; // Rethrow the validation error
+    }
 }
 exports.Rental=rental;
 exports.validation=validation;
