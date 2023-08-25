@@ -20,8 +20,7 @@ router.get("/:id",async(req,res)=>{
 });
 
 router.post("/",async(req,res)=>{
-    try {
-        await validation(req.body);
+    await validation(req.body)
     const customer= await Customer.findById(req.body.customerId);
     if (!customer){return res.status(404).send("404 NOT FOUND")}
     
@@ -43,27 +42,18 @@ router.post("/",async(req,res)=>{
         dateReturned: req.body.dateReturned,
         rentalFee: req.body.rentalFee
     });
-    try{
         const session =await mongoose.startSession();
         session.withTransaction(async()=>{
-            const rental=rentals.save();
+            const rental=await rentals.save();
             Movies.numberInStock --;
-            Movies.save()
+            await Movies.save()
             res.send(rental);
         });
         session.endSession();
-    }
-    catch(ex){
-        res.status(500).send("Internal Error")
-    }    
-}
-catch(error){
-    return  res.status(400).send(error.details[0].message);  
-}
-    
+ 
 });
 router.put("/:id",[jwtauth,jwtadmin],async( req,res)=>{
-    try {
+
         await validation(req.body);
         if(req.body.customerId&&req.body.movieId){
             const customer= await Customer.findById(req.body.customerId);
@@ -71,7 +61,6 @@ router.put("/:id",[jwtauth,jwtadmin],async( req,res)=>{
             
             const Movies= await movies.findById(req.body.movieId);
             if (!Movies){return res.status(404).send("404 NOT FOUND")}
-            try{
                 const rental=await Rental.findByIdAndUpdate(req.params.id,{
                     customer:{
                         _id:req.body.customerId,
@@ -90,14 +79,10 @@ router.put("/:id",[jwtauth,jwtadmin],async( req,res)=>{
                     return res.status(404).send("404 NOT FOUND")
                 };    
                 res.send(rental)
-            }
-            catch(ex){
-                res.status(500).send("Internal error")
-            }
+ 
         return;
         }
             if(req.body.movieId){
-                try{
                     const Movies= await movies.findById(req.body.movieId);
                     if (!Movies){return res.status(404).send("404 NOT FOUND")}
                     const rental=await Rental.findByIdAndUpdate(req.params.id,{
@@ -112,14 +97,10 @@ router.put("/:id",[jwtauth,jwtadmin],async( req,res)=>{
                         return res.status(404).send("404 NOT FOUND")
                     };    
                     res.send(rental)
-                }
-                catch(ex){
-                    res.status(500).send("Internal error")
-                }
+
             return;
             }
             if(req.body.customerId){
-                try{
                     const customer= await Customer.findById(req.body.customerId);
                     if (!customer){return res.status(404).send("404 NOT FOUND")}
                     const rental=await Rental.findByIdAndUpdate(req.params.id,{
@@ -136,18 +117,8 @@ router.put("/:id",[jwtauth,jwtadmin],async( req,res)=>{
                         return res.status(404).send("404 NOT FOUND")
                     };    
                     res.send(rental)
-                }
-                catch(ex){
-                    res.status(500).send("Internal error")
-                }
             return;
             }
-        
-    }
-catch(error){
-  return res.status(400).send("Bad request")
-}
-
 })
 
 module.exports =router;

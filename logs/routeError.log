@@ -1,0 +1,41 @@
+{"level":"error","message":""}
+{"level":"error","message":""}
+{"level":"error","message":""}
+{"level":"error","message":""}
+{"level":"error","message":""}
+{"level":"error","message":"could not connectt to database connect ECONNREFUSED 127.0.0.1:27017","reason":{"commonWireVersion":0,"compatible":true,"heartbeatFrequencyMS":10000,"localThresholdMS":15,"logicalSessionTimeoutMinutes":null,"maxElectionId":null,"maxSetVersion":null,"servers":{},"setName":null,"stale":false,"type":"Unknown"},"stack":"MongooseServerSelectionError: connect ECONNREFUSED 127.0.0.1:27017\n    at _handleConnectionErrors (C:\\Users\\M\\Documents\\GitHub\\vidly\\node_modules\\mongoose\\lib\\connection.js:788:11)\n    at NativeConnection.openUri (C:\\Users\\M\\Documents\\GitHub\\vidly\\node_modules\\mongoose\\lib\\connection.js:763:11)\n    at runNextTicks (node:internal/process/task_queues:60:5)\n    at listOnTimeout (node:internal/timers:538:9)\n    at process.processTimers (node:internal/timers:512:7)"}
+{"level":"error","message":""}
+{"level":"error","message":""}
+{"level":"error","message":""}
+{"level":"error","message":"could not connectt to database connect ECONNREFUSED 127.0.0.1:27017","reason":{"commonWireVersion":0,"compatible":true,"heartbeatFrequencyMS":10000,"localThresholdMS":15,"logicalSessionTimeoutMinutes":null,"maxElectionId":null,"maxSetVersion":null,"servers":{},"setName":null,"stale":false,"type":"Unknown"},"stack":"MongooseServerSelectionError: connect ECONNREFUSED 127.0.0.1:27017\n    at _handleConnectionErrors (C:\\Users\\M\\Documents\\GitHub\\vidly\\node_modules\\mongoose\\lib\\connection.js:788:11)\n    at NativeConnection.openUri (C:\\Users\\M\\Documents\\GitHub\\vidly\\node_modules\\mongoose\\lib\\connection.js:763:11)\n    at runNextTicks (node:internal/process/task_queues:60:5)\n    at listOnTimeout (node:internal/timers:538:9)\n    at process.processTimers (node:internal/timers:512:7)"}
+{"level":"error","message":""}
+{"_original":{"customerId":"64da5ad026718ea69cf03696","movieId":"64d9500a2f7c2596b434d7"},"details":[{"context":{"key":"movieId","label":"movieId","name":"valid mongo id","regex":{},"value":"64d9500a2f7c2596b434d7"},"message":"\"movieId\" with value \"64d9500a2f7c2596b434d7\" fails to match the valid mongo id pattern","path":["movieId"],"type":"string.pattern.name"}],"level":"error","message":"\"movieId\" with value \"64d9500a2f7c2596b434d7\" fails to match the valid mongo id pattern \"movieId\" with value \"64d9500a2f7c2596b434d7\" fails to match the valid mongo id pattern","stack":"ValidationError: \"movieId\" with value \"64d9500a2f7c2596b434d7\" fails to match the valid mongo id pattern"}
+{"_original":{"customerId":"64da5ad026718ea69cf03696","movieId":"64d9500a2f7c2596b434d76"},"details":[{"context":{"key":"movieId","label":"movieId","name":"valid mongo id","regex":{},"value":"64d9500a2f7c2596b434d76"},"message":"\"movieId\" with value \"64d9500a2f7c2596b434d76\" fails to match the valid mongo id pattern","path":["movieId"],"type":"string.pattern.name"}],"level":"error","message":"\"movieId\" with value \"64d9500a2f7c2596b434d76\" fails to match the valid mongo id pattern \"movieId\" with value \"64d9500a2f7c2596b434d76\" fails to match the valid mongo id pattern","stack":"ValidationError: \"movieId\" with value \"64d9500a2f7c2596b434d76\" fails to match the valid mongo id pattern"}
+{"level":"error"}
+{"level":"info","message":"connected to Database..."}
+{"level":"info","message":"connected to Database..."}
+{"level":"info","message":"connected to Database..."}
+{"level":"info","message":"connected to Database..."}
+{"level":"info","message":"connected to Database..."}
+{"level":"info","message":"connected to Database..."}
+{"level":"info","message":"Server listening on 3000"}
+{"level":"info","message":"connected to Database..."}
+{"level":"info","message":"Server listening on 3000"}
+{"level":"info","message":"connected to Database..."}
+{"level":"info","message":"Server listening on 3000"}
+{"level":"info","message":"connected to Database..."}
+{"level":"info","message":"Server listening on 3000"}
+{"level":"info","message":"connected to Database..."}
+{"level":"info","message":"Server listening on 3000"}
+{"level":"info","message":"connected to Database..."}
+{"level":"info","message":"Server listening on 3000"}
+{"level":"info","message":"connected to Database..."}
+{"level":"info","message":"Server listening on 3000"}
+{"level":"info","message":"connected to Database..."}
+{"level":"info","message":"Server listening on 3000"}
+{"level":"info","message":"connected to Database..."}
+{"level":"info","message":"connected to Database..."}
+{"level":"info","message":"Server listening on 3000"}
+{"level":"info","message":"connected to Database..."}
+{"level":"info","message":"Server listening on 3000"}
+{"level":"info","message":"connected to Database..."}

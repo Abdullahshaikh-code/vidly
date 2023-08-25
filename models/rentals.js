@@ -49,12 +49,12 @@ const rental_schema=new mongoose.Schema({
 const rental= mongoose.model("Rentals",rental_schema)
 
 async function validation(rental){
-    const schema= {
+    const schema= Joi.object({
       customerId:Joi.objectId().required(),
       movieId:Joi.objectId().required(),
       dateReturned:Joi.date(),
       rentalFee:Joi.number()
-    };
+    })
     try {
         await schema.validateAsync(rental);
         console.log('Validation successful');
@@ -63,12 +63,12 @@ async function validation(rental){
     }
 }
 async function Smart_validation(rental){
-    const schema= {
+    const schema= Joi.object({
       customerId:Joi.objectId(),
       movieId:Joi.objectId(),
       dateReturned:Joi.date(),
       rentalFee:Joi.number()
-    };
+    });
     try {
         await schema.validateAsync(rental);
         console.log('Validation successful');

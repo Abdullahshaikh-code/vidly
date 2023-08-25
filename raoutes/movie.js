@@ -6,9 +6,10 @@ const {Genres}=require("../models/genres");
 const router=express.Router();
 router.use(express.json());
 
-router.get("/",async(req,res)=>{
+router.get("/",async(req,res,)=>{
     const Movies=await movies.find().sort("name");
     res.send(Movies);
+
 });
 router.get("/:id",async(req,res)=>{
     const Movies= await movies.findById(req.params.id);
@@ -19,7 +20,6 @@ router.get("/:id",async(req,res)=>{
 });
 
 router.post("/",jwtauth,async(req,res)=>{
-    try {
         await validation(req.body);
         let Movies=new movies({
             title: req.body.title,
@@ -31,14 +31,8 @@ router.post("/",jwtauth,async(req,res)=>{
         genres= await genres.save()
         Movies= await Movies.save()
         res.send(Movies);
-    
-    }
-    catch(error){
-        return  res.status(400).send(error.details[0].message);  
-    }
 });
 router.put("/:id",jwtauth,async( req,res)=>{
-    try {
         await validation(req.body);        
         const Movies=await movies.findByIdAndUpdate(req.params.id,{
             title: req.body.title,
@@ -50,12 +44,6 @@ router.put("/:id",jwtauth,async( req,res)=>{
         return res.status(404).send("404 NOT FOUND")
         };
         res.send(Movies)
-
-    }
-    catch(error){
-        return  res.status(400).send(error.details[0].message);  
-    }
-    
 })
 router.delete("/:id",[jwtauth,jwtadmin],async(req,res)=>{
     const Movies=await movies.findByIdAndDelete(req.params.id);

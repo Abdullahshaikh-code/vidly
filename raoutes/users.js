@@ -8,7 +8,6 @@ const router = express.Router();
 router.use(express.json());
 
 router.post("/", async (req, res) => {
-    try {
         await validation(req.body);
 
         if (await User.findOne({ email: req.body.email })) {
@@ -24,15 +23,6 @@ router.post("/", async (req, res) => {
         user = await user.save();
         const token=user.generateAuthToken()
         res.header("x-auth-token",token).send(_.pick(user, ["_id", "name", "email"]));
-    } catch (error) {
-        if (error instanceof mongoose.Error.ValidationError) {
-            return res.status(400).send("Validation error occurred");
-        }
-
-        // Handle other errors (e.g., database or server errors)
-        console.error('Error:', error);
-        return res.status(500).send("Fill Info Correctly");
-    }
 });
 
 module.exports = router;

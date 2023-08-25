@@ -2,6 +2,7 @@ const Joi = require('joi');
 const mongoose = require('mongoose');
 const {genreSchema}=require("./genres");
 const movie_schema =new mongoose.Schema({
+    _id: mongoose.Schema.Types.ObjectId,
     title:{ 
     type: String,
     require: true,
@@ -29,18 +30,16 @@ const movie_schema =new mongoose.Schema({
 const movies=mongoose.model("movies",movie_schema)
 
 async function validation(movies){
-    const schema={
+    const schema=Joi.object({
         title: Joi.string().min(3).max(30).required(),
         numberInStock: Joi.number().min(0).max(255).required(),
         dailyRentalRate: Joi.number().min(0).max(255).required(),
         genre:Joi.object({name:Joi.string().min(5).max(50).required()}).required()
-    }
-    try {
-        await schema.validateAsync(movies);
-        console.log('Validation successful');
-    } catch (error) {
-        throw error; // Rethrow the validation error
-    }
+    })
+
+    await schema.validateAsync(movies);
+    console.log('Validation successful');
+
 }
 exports.movies=movies;
 exports.validation=validation;
