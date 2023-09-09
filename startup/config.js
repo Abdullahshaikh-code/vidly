@@ -1,4 +1,3 @@
-const log=require("../startup/logging")
 const config=require("config");
 module.exports=function(){
     if (!config.get("jwtPrivateKey")){

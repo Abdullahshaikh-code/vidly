@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "nodemon": "nodemon index.js"
+    "nodemon": "nodemon index.js",
+    "test": "jest --watchAll --verbose"
   },
   "keywords": [],
   "author": "",
@@ -20,9 +21,14 @@
     "joi-password-complexity": "^5.2.0",
     "jsonwebtoken": "^9.0.1",
     "lodash": "^4.17.21",
+    "moments": "^0.0.2",
     "mongoose": "^7.4.3",
-    "nodemon": "^3.0.1",
     "winston": "^3.10.0",
     "winston-mongodb": "^5.1.1"
+  },
+  "devDependencies": {
+    "jest": "^29.6.4",
+    "nodemon": "^3.0.1",
+    "supertest": "^6.3.3"
   }
 }

@@ -1,17 +1,20 @@
 const express= require("express");
 const jwtadmin= require("../MiddleWare/admin");
 const jwtauth= require("../MiddleWare/authJwt");
-const mongoose=require("mongoose");
+const ValidateObjectId= require("../MiddleWare/validateObjectId");
+const mongoose=require("mongoose");   
 const {movies}=require("../models/movie");
 const {Customer}=require("../models/customers");
 const {Rental,validation,Smart_validation}=require("../models/rentals");
+const validateObjectId = require("../MiddleWare/validateObjectId");
 const router=express.Router();
 router.use(express.json());
+
 router.get("/",async(req,res)=>{
     const rentals=await Rental.find().sort("-DateOut");
     res.send(rentals);
 });
-router.get("/:id",async(req,res)=>{
+router.get("/:id",ValidateObjectId,async(req,res)=>{
     const rentals= await Rental.findById(req.params.id);
     if (! rentals){
         return res.status(404).send("404 not found")
@@ -52,9 +55,9 @@ router.post("/",async(req,res)=>{
         session.endSession();
  
 });
-router.put("/:id",[jwtauth,jwtadmin],async( req,res)=>{
+router.put("/:id",[jwtauth,jwtadmin,validateObjectId],async( req,res)=>{
 
-        await validation(req.body);
+        await Smart_validation(req.body);
         if(req.body.customerId&&req.body.movieId){
             const customer= await Customer.findById(req.body.customerId);
             if (!customer){return res.status(404).send("404 NOT FOUND")}

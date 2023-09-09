@@ -1,8 +1,10 @@
 const express= require("express");
+const ValidateObjectId= require("../MiddleWare/validateObjectId");
 const jwtadmin= require("../MiddleWare/admin");
 const jwtauth= require("../MiddleWare/authJwt");
 const {movies,validation}=require("../models/movie")
 const {Genres}=require("../models/genres");
+const validateObjectId = require("../MiddleWare/validateObjectId");
 const router=express.Router();
 router.use(express.json());
 
@@ -11,7 +13,7 @@ router.get("/",async(req,res,)=>{
     res.send(Movies);
 
 });
-router.get("/:id",async(req,res)=>{
+router.get("/:id",validateObjectId,async(req,res)=>{
     const Movies= await movies.findById(req.params.id);
     if (!Movies){
         return res.status(404).send("404 NOT FOUND")
@@ -32,7 +34,7 @@ router.post("/",jwtauth,async(req,res)=>{
         Movies= await Movies.save()
         res.send(Movies);
 });
-router.put("/:id",jwtauth,async( req,res)=>{
+router.put("/:id",[jwtauth,ValidateObjectId],async( req,res)=>{
         await validation(req.body);        
         const Movies=await movies.findByIdAndUpdate(req.params.id,{
             title: req.body.title,
@@ -45,7 +47,7 @@ router.put("/:id",jwtauth,async( req,res)=>{
         };
         res.send(Movies)
 })
-router.delete("/:id",[jwtauth,jwtadmin],async(req,res)=>{
+router.delete("/:id",[jwtauth,jwtadmin,validateObjectId],async(req,res)=>{
     const Movies=await movies.findByIdAndDelete(req.params.id);
         if (! Movies){
         return res.status(404).send("404 NOT FOUND")

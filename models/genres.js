@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Joi= require("joi");
-
 const genre_schema=new mongoose.Schema({
     name: {
         type: String,
@@ -23,6 +22,7 @@ async function validation(genre){
         throw error; // Rethrow the validation error
     }
 }
+
 exports.genreSchema=genre_schema
 exports.Genres=Genres;
 exports.validation=validation;

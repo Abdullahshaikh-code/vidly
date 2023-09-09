@@ -1,7 +1,9 @@
 const jwtauth= require("../MiddleWare/authJwt");
 const jwtadmin= require("../MiddleWare/admin");
+const ValidateobjectId= require("../MiddleWare/validateObjectId");
 const express= require("express");
-const {Genres,validation}=require("../models/genres")
+const {Genres,validation}=require("../models/genres");
+const validateObjectId = require("../MiddleWare/validateObjectId");
 const router=express.Router();
 router.use(express.json());
 
@@ -9,7 +11,7 @@ router.get("/",async(req,res)=>{
     const genres=await Genres.find().sort("name");
     res.send(genres);
 });
-router.get("/:id",async(req,res)=>{
+router.get("/:id",validateObjectId,async(req,res)=>{
     const genres= await Genres.findById(req.params.id);
     if (! genres){
         return res.status(404).send("404 not found")
@@ -31,7 +33,7 @@ router.put("/:id",jwtauth,async( req,res)=>{
         };
         res.send(genres)    
 })
-router.delete("/:id",[jwtauth,jwtadmin],async(req,res)=>{
+router.delete("/:id",[jwtauth,jwtadmin,validateObjectId],async(req,res)=>{
     const genres=await Genres.findByIdAndDelete(req.params.id);
         if (! genres){
         return res.status(404).send("404 NOT FOUND")
